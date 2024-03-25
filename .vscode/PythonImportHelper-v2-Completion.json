@@ -1,0 +1,143 @@
+[
+    {
+        "label": "tkinter",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "nltk",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "nltk",
+        "description": "nltk",
+        "detail": "nltk",
+        "documentation": {}
+    },
+    {
+        "label": "word_tokenize",
+        "importPath": "nltk.tokenize",
+        "description": "nltk.tokenize",
+        "isExtraImport": true,
+        "detail": "nltk.tokenize",
+        "documentation": {}
+    },
+    {
+        "label": "stopwords",
+        "importPath": "nltk.corpus",
+        "description": "nltk.corpus",
+        "isExtraImport": true,
+        "detail": "nltk.corpus",
+        "documentation": {}
+    },
+    {
+        "label": "FreqDist",
+        "importPath": "nltk.probability",
+        "description": "nltk.probability",
+        "isExtraImport": true,
+        "detail": "nltk.probability",
+        "documentation": {}
+    },
+    {
+        "label": "networkx",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "networkx",
+        "description": "networkx",
+        "detail": "networkx",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "create_keywords",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def create_keywords(text):\n    words = word_tokenize(text.lower(), language='russian')\n    words = [word for word in words if word.isalpha() and word not in stop_words]\n    freq_dist = FreqDist(words)\n    keywords = freq_dist.most_common(10)  # Выберем топ-10 ключевых слов\n    return [word[0] for word in keywords]\n# create_keywords принимает текст и возвращает список ключевых слов.\n# Текст токенизируется, приводится к нижнему регистру, исключаются стоп-слова и неподходящие символы.\n# Затем вычисляется частотное распределение слов и выбираются 10 наиболее часто встречающихся слов в виде ключевых.\ndef create_graph(keywords, text):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "create_graph",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def create_graph(keywords, text):\n    G = nx.Graph()\n    G.add_nodes_from(keywords)\n    # Определение частоты слов в тексте\n    freq_dist = FreqDist(word_tokenize(text.lower(), language='russian'))\n    total_words = len(word_tokenize(text.lower(), language='russian'))\n    # Рассчитываем вес ребра на основе частоты слов\n    for i in range(len(keywords)):\n        for j in range(i+1, len(keywords)):\n            word1 = keywords[i]",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "analyze",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def analyze():\n    text = text_entry.get(\"1.0\", tk.END)\n    keywords = create_keywords(text)\n    keyword_output.config(text=f\"Ключевые слова: {', '.join(keywords)}\")\n    G = create_graph(keywords, text) \n    pos = nx.spring_layout(G)\n    plt.figure(figsize=(8, 6))\n    nx.draw(G, pos, with_labels=True, node_size=1500, node_color='skyblue', font_weight='bold', font_size=10)\n    plt.title(\"Граф семантических связей\")\n    plt.show()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "stop_words",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "stop_words = set(stopwords.words('russian'))\ndef create_keywords(text):\n    words = word_tokenize(text.lower(), language='russian')\n    words = [word for word in words if word.isalpha() and word not in stop_words]\n    freq_dist = FreqDist(words)\n    keywords = freq_dist.most_common(10)  # Выберем топ-10 ключевых слов\n    return [word[0] for word in keywords]\n# create_keywords принимает текст и возвращает список ключевых слов.\n# Текст токенизируется, приводится к нижнему регистру, исключаются стоп-слова и неподходящие символы.\n# Затем вычисляется частотное распределение слов и выбираются 10 наиболее часто встречающихся слов в виде ключевых.",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "root = tk.Tk()\nroot.title(\"Инструмент семантического анализа\")\nroot.geometry('350x450+700+200')\ntext_label = tk.Label(root, text=\"Введите текст:\")\ntext_label.pack()\ntext_entry = tk.Text(root, height=10, width=50)\ntext_entry.pack()\nanalyze_button = tk.Button(root, text=\"Анализировать текст\", command=analyze)\nanalyze_button.pack()\nkeyword_output = tk.Label(root, text=\"Здесь будут отображаться ключевые слова\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "text_label",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "text_label = tk.Label(root, text=\"Введите текст:\")\ntext_label.pack()\ntext_entry = tk.Text(root, height=10, width=50)\ntext_entry.pack()\nanalyze_button = tk.Button(root, text=\"Анализировать текст\", command=analyze)\nanalyze_button.pack()\nkeyword_output = tk.Label(root, text=\"Здесь будут отображаться ключевые слова\")\nkeyword_output.pack()\nroot.mainloop()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "text_entry",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "text_entry = tk.Text(root, height=10, width=50)\ntext_entry.pack()\nanalyze_button = tk.Button(root, text=\"Анализировать текст\", command=analyze)\nanalyze_button.pack()\nkeyword_output = tk.Label(root, text=\"Здесь будут отображаться ключевые слова\")\nkeyword_output.pack()\nroot.mainloop()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "analyze_button",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "analyze_button = tk.Button(root, text=\"Анализировать текст\", command=analyze)\nanalyze_button.pack()\nkeyword_output = tk.Label(root, text=\"Здесь будут отображаться ключевые слова\")\nkeyword_output.pack()\nroot.mainloop()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "keyword_output",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "keyword_output = tk.Label(root, text=\"Здесь будут отображаться ключевые слова\")\nkeyword_output.pack()\nroot.mainloop()",
+        "detail": "main",
+        "documentation": {}
+    }
+]
